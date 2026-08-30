@@ -14,7 +14,8 @@ namespace GravarDadosMySQL
 {
     public partial class Form1 : Form
     {
-        MySqlConnection Conexao;
+        private MySqlConnection Conexao;
+        private string data_source = "datasource=localhost;username=root;password=;database=db_agenda";
         public Form1()
         {
             InitializeComponent();
@@ -34,8 +35,6 @@ namespace GravarDadosMySQL
         {
             try
             {
-                string data_source = "datasource=localhost;username=root;password=;database=db_agenda";
-
                 // Criar conexão com o MySQL 
                 Conexao = new MySqlConnection(data_source);
 
@@ -55,7 +54,57 @@ namespace GravarDadosMySQL
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            } finally
+            }
+            finally
+            {
+                Conexao.Close();
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string q = "'%" + txt_bucar.Text + "%'";
+
+                Conexao = new MySqlConnection(data_source);
+
+                string sql = "SELECT * " + "FROM contato " +
+                    "WHERE nome LIKE " + q + "OR email LIKE " + q;
+
+                Conexao.Open();
+
+                MySqlCommand comando = new MySqlCommand(sql, Conexao);
+
+                MySqlDataReader reader = comando.ExecuteReader();
+
+                lst_contatos.Clear();
+
+                while (reader.Read())
+                {
+                    string[] row =
+                    {
+                        //SE DER ERRADO É PQ ID É INT "reader.GetInt32(0).ToString();"  
+                        reader.GetString(0),
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        reader.GetString(3),
+                };
+
+                    var linha_listview = new ListViewItem(row);
+
+                    lst_contatos.Items.Add(linha_listview);
+            }
+            
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
             {
                 Conexao.Close();
             }

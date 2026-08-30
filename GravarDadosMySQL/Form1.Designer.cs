@@ -36,6 +36,10 @@ namespace GravarDadosMySQL
             this.txtTelefone = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.lst_contatos = new System.Windows.Forms.ListView();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txt_bucar = new System.Windows.Forms.TextBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -98,11 +102,50 @@ namespace GravarDadosMySQL
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // lst_contatos
+            // 
+            this.lst_contatos.HideSelection = false;
+            this.lst_contatos.Location = new System.Drawing.Point(215, 80);
+            this.lst_contatos.Name = "lst_contatos";
+            this.lst_contatos.Size = new System.Drawing.Size(385, 115);
+            this.lst_contatos.TabIndex = 7;
+            this.lst_contatos.UseCompatibleStateImageBehavior = false;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(215, 13);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 13);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Buscar Contato:";
+            // 
+            // txt_bucar
+            // 
+            this.txt_bucar.Location = new System.Drawing.Point(215, 43);
+            this.txt_bucar.Name = "txt_bucar";
+            this.txt_bucar.Size = new System.Drawing.Size(327, 20);
+            this.txt_bucar.TabIndex = 9;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(549, 39);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(51, 23);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "Buscar";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(222, 221);
+            this.ClientSize = new System.Drawing.Size(627, 221);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.txt_bucar);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lst_contatos);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtEmail);
             this.Controls.Add(this.txtTelefone);
@@ -126,6 +169,10 @@ namespace GravarDadosMySQL
         private System.Windows.Forms.TextBox txtTelefone;
         private System.Windows.Forms.TextBox txtEmail;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListView lst_contatos;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txt_bucar;
+        private System.Windows.Forms.Button button2;
     }
 }
 
