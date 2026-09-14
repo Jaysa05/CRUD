@@ -107,7 +107,7 @@ namespace GravarDadosMySQL
             this.lst_contatos.HideSelection = false;
             this.lst_contatos.Location = new System.Drawing.Point(215, 80);
             this.lst_contatos.Name = "lst_contatos";
-            this.lst_contatos.Size = new System.Drawing.Size(385, 115);
+            this.lst_contatos.Size = new System.Drawing.Size(385, 186);
             this.lst_contatos.TabIndex = 7;
             this.lst_contatos.UseCompatibleStateImageBehavior = false;
             // 
@@ -141,7 +141,7 @@ namespace GravarDadosMySQL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 221);
+            this.ClientSize = new System.Drawing.Size(627, 278);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.txt_bucar);
             this.Controls.Add(this.label4);
@@ -154,7 +154,7 @@ namespace GravarDadosMySQL
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Agenda de Contatos  C# com MySQL ";
             this.ResumeLayout(false);
             this.PerformLayout();
 
