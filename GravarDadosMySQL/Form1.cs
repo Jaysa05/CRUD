@@ -14,8 +14,11 @@ namespace GravarDadosMySQL
 {
     public partial class Form1 : Form
     {
+
         private MySqlConnection Conexao;
         private string data_source = "datasource=localhost;username=root;password=;database=db_agenda";
+
+        private int? id_contato_selecionado = null;
         public Form1()
         {
             InitializeComponent();
@@ -56,20 +59,44 @@ namespace GravarDadosMySQL
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Conexao;
 
-                cmd.CommandText = "INSERT INTO contato (nome, email, telefone)" +
-                                  "VALUES" + "(@nome, @email, @telefone)";
+                if(id_contato_selecionado == null)
+                {
+
+                    cmd.CommandText = "INSERT INTO contato (nome, email, telefone)" +
+                                      "VALUES" + "(@nome, @email, @telefone)";
 
 
-                cmd.Parameters.AddWithValue("@nome", txtNome.Text);
-                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
 
-                cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Contato cadastrado com sucesso!",
-                                "Sucesso", MessageBoxButtons.OK,
-                                MessageBoxIcon.Information);
+                    MessageBox.Show("Contato Cadastrado com Sucesso!",
+                                    "Sucesso", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
 
+                else
+                {
+
+                    cmd.CommandText = "UPDATE contato SET " + "nome=@nome, email=@email, telefone=@telefone WHERE id=@id";
+
+
+                    cmd.Parameters.AddWithValue("@nome", txtNome.Text);
+                    cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@telefone", txtTelefone.Text);
+                    cmd.Parameters.AddWithValue("@id", id_contato_selecionado);
+
+                    cmd.ExecuteNonQuery();
+
+                    MessageBox.Show("Contato Atualizado com Sucesso!",
+                                    "Sucesso", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+                }
+
+
+                id_contato_selecionado = null;
                 txtNome.Text = "";
                 txtEmail.Text = "";
                 txtTelefone.Text = "";
@@ -108,7 +135,7 @@ namespace GravarDadosMySQL
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Conexao;
 
-                cmd.CommandText = "SELECT* FROM contato WHERE nome LIKE @q OR email LIKE @q";
+                cmd.CommandText = "SELECT * FROM contato WHERE nome LIKE @q OR email LIKE @q";
 
                 cmd.Parameters.AddWithValue("@q", "%" + txt_bucar.Text + "%");
 
@@ -128,7 +155,7 @@ namespace GravarDadosMySQL
                         reader.GetString(3),
                 };
 
-                    var linha_listview =
+                    
 
                     lst_contatos.Items.Add(new ListViewItem(row));
                 }
@@ -166,7 +193,7 @@ namespace GravarDadosMySQL
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Conexao;
 
-                cmd.CommandText = "SELECT* FROM contato ORDER BY id DESC";
+                cmd.CommandText = "SELECT * FROM contato ORDER BY id DESC";
 
 
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -205,8 +232,31 @@ namespace GravarDadosMySQL
             }
         }
 
+        private void lst_contatos_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            ListView.SelectedListViewItemCollection itens_selecionados = lst_contatos.SelectedItems;
 
+            foreach(ListViewItem item in itens_selecionados)
+            {
 
+                id_contato_selecionado = Convert.ToInt32(item.SubItems[0].Text);
+
+                txtNome.Text = item.SubItems[1].Text;
+                txtEmail.Text = item.SubItems[2].Text;
+                txtTelefone.Text = item.SubItems[3].Text;
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            id_contato_selecionado = null;
+
+            txtNome.Text = "";
+            txtEmail.Text = "";
+            txtTelefone.Text = "";
+
+            txtNome.Focus();
+        }
     }
 
 
