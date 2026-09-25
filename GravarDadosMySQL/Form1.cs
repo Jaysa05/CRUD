@@ -59,7 +59,7 @@ namespace GravarDadosMySQL
                 MySqlCommand cmd = new MySqlCommand();
                 cmd.Connection = Conexao;
 
-                if(id_contato_selecionado == null)
+                if (id_contato_selecionado == null)
                 {
 
                     cmd.CommandText = "INSERT INTO contato (nome, email, telefone)" +
@@ -96,10 +96,8 @@ namespace GravarDadosMySQL
                 }
 
 
-                id_contato_selecionado = null;
-                txtNome.Text = "";
-                txtEmail.Text = "";
-                txtTelefone.Text = "";
+                zerar_formulario();
+                carregar_contatos();
 
             }
             catch (MySqlException ex)
@@ -155,7 +153,7 @@ namespace GravarDadosMySQL
                         reader.GetString(3),
                 };
 
-                    
+
 
                     lst_contatos.Items.Add(new ListViewItem(row));
                 }
@@ -236,7 +234,7 @@ namespace GravarDadosMySQL
         {
             ListView.SelectedListViewItemCollection itens_selecionados = lst_contatos.SelectedItems;
 
-            foreach(ListViewItem item in itens_selecionados)
+            foreach (ListViewItem item in itens_selecionados)
             {
 
                 id_contato_selecionado = Convert.ToInt32(item.SubItems[0].Text);
@@ -244,10 +242,18 @@ namespace GravarDadosMySQL
                 txtNome.Text = item.SubItems[1].Text;
                 txtEmail.Text = item.SubItems[2].Text;
                 txtTelefone.Text = item.SubItems[3].Text;
+
+                button4.Visible = true;
             }
         }
 
         private void button3_Click(object sender, EventArgs e)
+        {
+            zerar_formulario();
+
+        }
+
+        private void zerar_formulario()
         {
             id_contato_selecionado = null;
 
@@ -256,13 +262,85 @@ namespace GravarDadosMySQL
             txtTelefone.Text = "";
 
             txtNome.Focus();
+
+            button4.Visible = false;
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            excluir_contatos();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            excluir_contatos();
+        }
+
+        private void excluir_contatos()
+        {
+                try
+                {
+
+                    DialogResult conf = MessageBox.Show("Tem certeza que deseja excluir ?",
+                                          "Tem certeza ?", MessageBoxButtons.YesNo,
+                                          MessageBoxIcon.Warning);
+
+
+                    if (conf == DialogResult.Yes)
+                    {
+                     Conexao = new MySqlConnection(data_source);
+                     Conexao.Open();
+
+                     MySqlCommand cmd = new MySqlCommand();
+
+                     cmd.Connection = Conexao;
+
+                     cmd.CommandText = "DELETE FROM contato Where id=@id";
+
+                     cmd.Parameters.AddWithValue("@id", id_contato_selecionado);
+                     cmd.Prepare();
+                     cmd.ExecuteNonQuery();
+
+                     MessageBox.Show("Contato Excluído com Sucesso!",
+                                      "Sucesso", MessageBoxButtons.OK,
+                                      MessageBoxIcon.Information);
+
+                    carregar_contatos();
+
+                    zerar_formulario();
+
+
+                    }
+
+                }
+                catch (MySqlException ex)
+                {
+                    MessageBox.Show("Erro" + ex.Number + "Ocorreu" + ex.Message,
+                                    "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Ocorreu" + ex.Message,
+                                    "Erro", MessageBoxButtons.OK
+                                    , MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    Conexao.Close();
+                }
+
+
+
+            }
+
         }
     }
 
 
-}
 
-    
+
+
 
 
 
